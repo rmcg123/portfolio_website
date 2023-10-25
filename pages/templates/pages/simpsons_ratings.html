@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block page_content %}
+    <h1>Determining the Golden Age of The Simpsons</h1>
+    <p>
+        <img src="{% static 'simpsons_ratings/simpsons_peak_window.png' %}" alt="My image", style="width:800px">
+        <img src="{% static 'simpsons_ratings/simpsons_golden_age.png' %}" alt="My image", style="width:800px">
+        <img src="{% static 'simpsons_ratings/rating_dist_peak_window_episodes_share.png' %}" alt="My image", style="width:800px">
+        <img src="{% static 'simpsons_ratings/rating_dist_peak_window_episodes_counts.png' %}" alt="My image", style="width:800px">
+        <img src="{% static 'simpsons_ratings/rating_dist_top_episodes_share.png' %}" alt="My image", style="width:800px">
+        <img src="{% static 'simpsons_ratings/rating_dist_top_episodes_counts.png' %}" alt="My image", style="width:800px">
+
+    </p>
+    <p>
+        The code for this project is available on my GitHub
+            <a href="https://github.com/rmcg123/the_simpsons_imdb_ratings">here</a>
+    </p>
+{% endblock page_content %}

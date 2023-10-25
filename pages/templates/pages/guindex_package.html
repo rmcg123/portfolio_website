@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1>The Guindex Python Package</h1>
+    <p>
+        In August 2023 I created and released my first python package. The
+        package is called guindex and can be installed via `pip install guindex`.
+        It's a small package which talks to the API of the website
+        <a href="https://www.guindex.ie">guindex.ie</a>
+        (which some friends and I run) and returns pandas DataFrame of selected
+        data from the guindex project. The guindex is a collaborative data
+        collection project examining the pricing of pints of Guinness around
+        Ireland.
+    </p>
+    <p>The page for the package on the Python
+        Packaging Index (PyPI) is <a href="https://pypi.org/project/guindex/">here</a>
+        including some basic examples. The code
+        for the package is available on my GitHub <a href="https://github.com/rmcg123/guindex-py">here</a>.
+    </p>
+
+{% endblock page_content %}

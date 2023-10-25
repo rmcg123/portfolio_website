@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1>My Portfolio Website</h1>
+
+    <p>This site is intended to showcase (a subset of) my skills, abilities
+        and interests.<br> Each of the below projects will see me working with
+        different data sources and/or formats to produce interesting results
+        and visualisations.<p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">Guindex Python Package</h5>
+                <p class="card-text">A simple python package I released that
+                    makes requests to the API of the Guindex website and
+                    returns the pubs or pints as Pandas DataFrames.</p>
+                <a href="{% url 'guindex_package' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">Determining the Golden Age of The Simpsons</h5>
+                <p class="card-text">A small project to try and identify the
+                    most highly regarded period of "The Simpsons" TV show based
+                    on IMDB ratings.
+                </p>
+                <a href="{% url 'simpsons_ratings' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">Real Time Tracking of Irish Trains</h5>
+                <p class="card-text">A small project to use the Irish Rail API
+                    to get and visualise real time train locations
+                    over a specified time window.
+                </p>
+                <a href="{% url 'irish_rail_rt' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">
+                    Variation of Guinness Pint Pricing in Dublin Postal Regions
+                    (2017-18)
+                </h5>
+                <p class="card-text">Examining the variation of Guinness pricing
+                    in different An Post administrative areas of Dublin in
+                    2017-18 period.
+                </p>
+                <a href="{% url 'guinness_pricing_post' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">
+                    Explore Ireland Transport Emissions Decarbonisation Scenarios
+                </h5>
+                <p class="card-text">
+                    An R Shiny project to look at how various combinations of
+                    Avoid, Shift and Improve measures including fleet
+                    electrification could contribute to Ireland's transport
+                    sector meeting its 2030 target.
+                </p>
+                <a href="{% url 'transport_emissions_scenarios' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock page_content %}
+
+

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block page_content %}
+    <h1>Real Time Tracking of Irish Trains</h1>
+        <p>
+            Irish Rail has an API that affords the ability to retrieve the real
+            time location of their trains. In this project I used the python
+            requests package to retrieve real time train locations from this API.
+            The response was in XML format with an array of trains with each train
+            having a code, status, direction along with their latitude and longitude.
+            I parsed the XML for each train and created a Pandas DataFrame
+            containing this information. Once I had figured how to do this at one
+            point-in-time I then ran a task scheduler to do it repeatedly at a
+            set frequency (every two minutes) over a chosen time window
+            (60 minutes) on the 19th October 2023.
+        </p>
+        <p>
+            For each of these moments in time I represented the trains on a
+            Folium map with added GeoJSON layers for the rail network and rail
+            stations which I had downloaded from the Ordnance Survey Ireland
+            website (see below (the trains are clickable)).
+        </p>
+        <embed type="text/html" src="{% url 'example_map' %}" width="50%" height="50%">
+        <img src="{% static 'irish_rail_rt/trains_2023-10-19 17:46:17.885501.png' %}" alt="My image", style="width:800px">
+        <p>
+
+            In order to display the
+            dynamics of the trains I ran a webdriver (using Selenium) to open
+            each of the (html) Folium maps and take a png screenshot. I then
+            combined the pngs into a gif - see below.
+        </p>
+
+        <img src="{% static 'irish_rail_rt/trains.gif' %}" alt="My image", style="width:800px">
+
+        <p>The code for this project is available on my GitHub
+            <a href="https://github.com/rmcg123/irish_rail_real_time">here</a>
+        </p>
+{% endblock page_content %}
