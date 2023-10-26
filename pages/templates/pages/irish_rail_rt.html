@@ -28,12 +28,16 @@
             In order to display the
             dynamics of the trains I ran a webdriver (using Selenium) to open
             each of the (html) Folium maps and take a png screenshot. I then
-            combined the pngs into a gif - see below.
+            combined the pngs into a gif - see below. Unfortunately, it appears
+            that you don't really get the real time location from the API as
+            the trains seem to make discrete jumps between stations as time
+            evolves.
         </p>
 
         <img src="{% static 'irish_rail_rt/trains.gif' %}" alt="My image", style="width:800px">
 
-        <p>The code for this project is available on my GitHub
+        <p>If you are interested in seeing how this was done the code for this
+            project is available on my GitHub
             <a href="https://github.com/rmcg123/irish_rail_real_time">here</a>
         </p>
 {% endblock page_content %}

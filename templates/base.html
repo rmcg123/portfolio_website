@@ -2,13 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}My Personal Portfolio{% endblock title %}</title>
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 </head>
-<body class="container", style="width:75%">
-{% block page_content %}{% endblock page_content %}
+<body class="container" style="background-color:black">
+    <div class="container" style="width:80%; background-color:white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="dropdown" data-bs-target="navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" href="{% url 'home' %}">Portfolio</a>
+                        <a class="nav-link" href="{% url 'guinness_pricing_post' %}">About</a>
+                        <a class="nav-link" href="{% url 'irish_rail_rt' %}">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <hr style="height:5%">
+    <div class="container" style="width:80%; background-color:white">
+        {% block page_content %}{% endblock page_content %}
+    </div>
 </body>
 </html>

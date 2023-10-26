@@ -4,16 +4,76 @@
 {% block page_content %}
     <h1>Determining the Golden Age of The Simpsons</h1>
     <p>
-        <img src="{% static 'simpsons_ratings/simpsons_peak_window.png' %}" alt="My image", style="width:800px">
-        <img src="{% static 'simpsons_ratings/simpsons_golden_age.png' %}" alt="My image", style="width:800px">
-        <img src="{% static 'simpsons_ratings/rating_dist_peak_window_episodes_share.png' %}" alt="My image", style="width:800px">
-        <img src="{% static 'simpsons_ratings/rating_dist_peak_window_episodes_counts.png' %}" alt="My image", style="width:800px">
-        <img src="{% static 'simpsons_ratings/rating_dist_top_episodes_share.png' %}" alt="My image", style="width:800px">
-        <img src="{% static 'simpsons_ratings/rating_dist_top_episodes_counts.png' %}" alt="My image", style="width:800px">
-
+        This is a small project I carried out to look at the ratings of episodes
+        of The Simpsons tv show over time using the average episode ratings from
+        IMDB. I also looked at the distributions of ratings for selected episodes.
+        On IMDB users can rate episodes from 1 to 10. The average rating for each
+        episode is calculated from the inputted user ratings using a weighted
+        average approach involving IMDB taking proactive steps to give as accurate
+        an average as possible.
     </p>
     <p>
-        The code for this project is available on my GitHub
+        The summary information of the episodes were obtained using the python
+        requests package and the html was parsed using the Beautiful Soup
+        package. This allowed us to identify the peak period of the show (see
+        image below).
+    </p>
+
+    <img src="{% static 'simpsons_ratings/simpsons_peak_window.png' %}" alt="Simpsons Peak" style="width:800px">
+    <p>
+        In this figure we have calculated the rolling mean of the average
+        episode rating in 12 episode windows (around half of a typical 24
+        episode season). This has been plotted over time from the start of the
+        tv show in 1989 up until the most recently aired episode (22nd October
+        2023) and is indicated by the solid blue line. The shaded regions represent
+        plus and minus one standard deviation from the average ratings within
+        the 12 episode window that the rolling mean is calculated from. The peak
+        12 episode window is from S6E22 to S7E8 (the individual episodes in
+        this window are shown further down the page).
+        It is also apparent the degree to which the ratings of the TV series
+        have declined from the late 1990s onwards.
+    </p>
+    <img src="{% static 'simpsons_ratings/simpsons_golden_age.png' %}" alt="Simpsons Golden Age" style="width:800px">
+    <p>
+        To determine the golden age of The Simpsons I came up with the
+        following criteria: all continuously connected episodes that belong to
+        a rolling 12 episode window where the rolling mean rating is within one
+        (peak) standard deviation of the peak rolling mean rating. Under this
+        criteria the golden age of The Simpsons runs from S6E3 to S7E15.
+    </p>
+    <img src="{% static 'simpsons_ratings/rating_dist_peak_window_episodes_share.png' %}" alt="Rating Distributions Share Peak Window Episodes" style="width:800px">
+    <p>
+        The rating distributions for the episodes in the peak windows is shown
+        in the stacked barplot figure above. Here we are looking at each
+        episode in the peak window on the y-axis and on the x-axis we are looking at the percentage
+        share of user ratings for each rating level for that episode. The colour
+        scheme for the ratings is indicated in the legend.
+    </p>
+    <img src="{% static 'simpsons_ratings/rating_dist_peak_window_episodes_counts.png' %}" alt="Rating Distributions Counts Peak Window Episodes" style="width:800px">
+    <p>
+        Similarly, for the figure above we are looking at a stacked bar plot
+        showing the counts of each rating for each of the episodes within the
+        peak window.
+    </p>
+    <img src="{% static 'simpsons_ratings/rating_dist_top_episodes_share.png' %}" alt="Rating Distributions Share Top Episodes" style="width:800px">
+    <p>
+        As well as the peak window of the show based on the rolling 12 episode
+        windows we can also look at the individually best rated episodes. Above
+        are the percentage share of each rating level for the highest
+        ranked episodes of the TV shows. There are 12 episodes that have a
+        rating of 9 or above. The episodes are ordered starting from
+        the highest ranked at the top of the y-axis. The top rated episode is
+        S8E23 "Homer's Enemy" AKA the Frank Grimes episode, which is the only
+        episode with a rating of 9.3ß.
+    </p>
+    <img src="{% static 'simpsons_ratings/rating_dist_top_episodes_counts.png' %}" alt="Rating Distributions Counts Top Episodes" style="width:800px">
+    <p>
+        And the corresponding counts for each of the top 12 episodes is shown
+        above.
+    </p>
+    <p>
+        If you are interested in seeing how this was done the code for this
+        project is available on my GitHub
             <a href="https://github.com/rmcg123/the_simpsons_imdb_ratings">here</a>
     </p>
 {% endblock page_content %}
