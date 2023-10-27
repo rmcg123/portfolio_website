@@ -1,7 +1,50 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% block page_content %}
     <h1>Variation of Guinness Pint Pricing in Dublin Postal Regions (2017-18)</h1>
     <p>
+        In this project I obtained Guinness pint price data from the Guindex
+        website using the <a href="../guindex_package">python package</a>
+        that I published. I restricted the scope of the analysis to user pint price
+        submissions from Dublin in the years 2017 and 2018. A shapefile with
+        the Dublin postal regions was obtained for this analysis.
+    </p>
+    <img src="{% static 'guinness_pricing_post/n_pubs_map.png' %}" alt="Number of Pubs by Postal Region" style="width:50%">
+    <p>
+        The above map shows this shapefile with the postal regions. The name of
+        each of the postal regions is annotated on the map. Additionally,
+        there is a colourmap showing the number of pubs within each of the
+        postal regions. Unsurprisingly, Dublin 2 has the largest number of pubs.
+    </p>
+    <img src="{% static 'guinness_pricing_post/n_pints_map.png' %}" alt="Number of Pints by Postal Region" style="width:50%">
+    <p>
+        Similarly here's one of these maps (they're called (univariate)
+        choropleth maps) showing the number of pint prices that have been
+        submitted to the guindex during 2017-18. Dublin 2 has had the largest
+        number of pints submitted.
+    </p>
+    <img src="{% static 'guinness_pricing_post/percentage_visited.png' %}" alt="Percentage of Pubs Visited by Postal Region" style="width:50%">
+    <p>
+        I calculated the percentage of pubs that have had pints submitted for
+        each of the postal regions and this information is displayed in the above
+        map. Dublin 6 has the highest percentage of pubs with submitted pint
+        prices.
+    </p>
+    <img src="{% static 'guinness_pricing_post/average_price_map.png' %}" alt="Average Pint Price Map" style="width:50%">
+    <p>
+        Above is the average pint price from pubs within each of the postal
+        regions. As well as averages we can also look at the distributions of
+        prices within each of the regions
+    </p>
+    <img src="{% static 'guinness_pricing_post/ridgeline_pints.png' %}" alt="Pints Postal Region Ridgeline" style="width:80%">
+    <p>
+        The plot above shows the price distributions for each of the postal
+        regions that has at least 4 price submissions.
+    </p>
+    <p>
+        If you are interested in seeing how this was done the code for this
+        project is available on my GitHub
+            <a href="https://github.com/rmcg123/guinness_pricing_in_dublin_postal_regions">here</a>
     </p>
 {% endblock page_content %}
