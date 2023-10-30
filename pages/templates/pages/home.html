@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% block page_content %}
     <h1>My Portfolio Website</h1>
 
@@ -11,16 +12,8 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-2">
-                <h5 class="card-title">Guindex Python Package</h5>
-                <p class="card-text">A simple python package I released that
-                    makes requests to the API of the Guindex website and
-                    returns the pubs or pints as Pandas DataFrames.</p>
-                <a href="{% url 'guindex_package' %}" class="btn btn-primary">Read More</a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card mb-2">
                 <h5 class="card-title">Determining the Golden Age of The Simpsons</h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/simpsons.png' %}" style="height:50%" alt="homer simpson image, from pixabay">
                 <p class="card-text">A small project to try and identify the
                     most highly regarded period of "The Simpsons" TV show based
                     on IMDB ratings.
@@ -31,11 +24,22 @@
         <div class="col-md-4">
             <div class="card mb-2">
                 <h5 class="card-title">Real Time Tracking of Irish Trains</h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/irish_rail.jpg' %}" alt="train image, from pixabay">
                 <p class="card-text">A small project to use the Irish Rail API
                     to get and visualise real time train locations
                     over a specified time window.
                 </p>
                 <a href="{% url 'irish_rail_rt' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+         <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">Guindex Python Package</h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/guindex_package.png' %}" alt="guindex icon">
+                <p class="card-text">A simple python package I released that
+                    makes requests to the API of the Guindex website and
+                    returns the pubs or pints as Pandas DataFrames.</p>
+                <a href="{% url 'guindex_package' %}" class="btn btn-primary">Read More</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -44,6 +48,7 @@
                     Variation of Guinness Pint Pricing in Dublin Postal Regions
                     (2017-18)
                 </h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/pint_geo_var.jpg' %}"  alt="pub image, from pixabay">
                 <p class="card-text">Examining the variation of Guinness pricing
                     in different An Post administrative areas of Dublin in
                     2017-18 period.
@@ -56,6 +61,7 @@
                 <h5 class="card-title">
                     Explore Ireland Transport Emissions Decarbonisation Scenarios
                 </h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/tem_scenarios.jpg' %}" alt="highway image, from pixabay">
                 <p class="card-text">
                     An R Shiny project to look at how various combinations of
                     Avoid, Shift and Improve measures including fleet
