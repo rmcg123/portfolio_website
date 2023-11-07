@@ -18,4 +18,11 @@ def guinness_pricing_post(request):
 def transport_emissions_scenarios(request):
     return render(request, "pages/transport_emissions_scenarios.html", {})
 
+def about(request):
+    return render(request, "pages/about.html", {})
 
+def stat_learning(request):
+    return render(request, "pages/statistical_learning.html", {})
+
+def abp(request):
+    return render(request, "pages/abp_pt_applications.html", {})

@@ -12,6 +12,17 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-2">
+                <h5 class="card-title">How Long is An Bord Pleanála Taking to Decide Public Transport Planning Applications?</h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/bus_lane.png' %}" style="height:50%" alt="bus lane sign, from pixabay">
+                <p class="card-text">
+                    A small project to determine how long An Bord Pleanála is taking to decide
+                    on major public transport infrastructure planning applications.
+                </p>
+                <a href="{% url 'abp_pt_applications' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
                 <h5 class="card-title">Determining the Golden Age of The Simpsons</h5>
                 <img class="card-img-top" src="{% static 'home_thumbs/simpsons.png' %}" style="height:50%" alt="homer simpson image, from pixabay">
                 <p class="card-text">A small project to try and identify the
@@ -69,6 +80,18 @@
                     sector meeting its 2030 target.
                 </p>
                 <a href="{% url 'transport_emissions_scenarios' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">Solutions to An Introduction to Statistical Learning Problems</h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/stat_learning.png' %}" alt="Chart, from Pixabay">
+                <p class="card-text">
+                    Solutions to the applied exercises for chapters 1 through 8
+                    of "An Introduction to Statistical Learning" by James, Witten,
+                    Hastie and Tibshirani done using R and written up using R Markdown.
+                </p>
+                <a href="{% url 'statistical_learning' %}" class="btn btn-primary">Read More</a>
             </div>
         </div>
     </div>

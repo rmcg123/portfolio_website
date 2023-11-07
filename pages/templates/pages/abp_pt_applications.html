@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block page_content %}
+    <h1>
+        How Long is An Bord Pleanála Taking to Decide Public Transport Planning Applications?
+    </h1>
+
+    <p>
+        Over the coming years An Bord Pleanála (ABP) will have to process a large
+        volume of planning applications for housing as well as the energy,
+        transport and heating infrastructure necessary to facilitate Ireland
+        reaching its climate targets. Unfortunately, in recent years ABP has
+        been beset by problems raising questions as to whether it will be able
+        to handle this responsibility.
+    </p>
+
+    <p>
+        Here I want to examine how long it is taking to decide on public
+        transport infrastructure applications. To do this I looked up the
+        application codes for all of the major public transport projects which
+        have reached the ABP planning application stage. I then wrote some code
+        to retrieve the information for each of the planning application pages
+        from ABPs website for each relevant public transport project. The time
+        taken for planning application consideration to date is shown in the plot below.
+    </p>
+    <img src="{% static 'abp_pt_applications/time_taken.png' %}" alt="Time taken by ABP per project" style="width:80%">
+    <p>
+        Only one of the public transport projects has had it's application decided on -
+        the twin tracking of the rail line from Glounthaune to Midleton to facilitate
+        the Cork commuter rail project had it's application granted with conditions in
+        late October 2023. Some of the Bus Connects Dublin applications are now in
+        excess of 500 days under consideration and have passed their original decision
+        deadlines. Depressingly, a rail application to close six level crossings on the
+        Dublin - Cork line is now over 800 days in the planning system.
+    </p>
+
+    <p>
+        If you are interested in seeing how this was done the code for this
+        project is available on my GitHub
+            <a href="https://github.com/rmcg123/abp_public_transport_applications">here</a>
+    </p>
+{% endblock page_content %}
