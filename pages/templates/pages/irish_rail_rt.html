@@ -19,9 +19,11 @@
             For each of these moments in time I represented the trains on a
             Folium map with added GeoJSON layers for the rail network and rail
             stations which I had downloaded from the Ordnance Survey Ireland
-            website (see below (the trains are clickable)).
+            website (see below (the trains are clickable)). (
+            Need to figure out an iframe issue to display in page but standalone
+            page <a href="{% url 'example_map' %}">here</a>
+            )
         </p>
-        <embed type="text/html" src="{% url 'example_map' %}" width="50%" height="50%">
         <img src="{% static 'irish_rail_rt/trains_2023-10-19 17:46:17.885501.png' %}" alt="Ireland train image" style="width:800px">
         <p>
 
