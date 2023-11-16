@@ -14,4 +14,5 @@ urlpatterns = [
     path("statistical_learning/", views.stat_learning, name="statistical_learning"),
     path("abp_pt_applications/", views.abp, name="abp_pt_applications"),
     path("about/", views.about, name="about"),
+    path("last_fm_analysis/", views.last_fm, name="last_fm_analysis"),
 ]

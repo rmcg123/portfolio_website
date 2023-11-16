@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block page_content %}
+    <h1>
+        Exploring the Last.fm API - What does the world scrobble?
+    </h1>
+
+    <p>
+        Last.fm is a music website that allows users to track their listening
+        activity across multiple listening platform and provides composite
+        statistics on users listening behaviour and provides recommendations to
+        users based on their listening habits. The process of a song listening
+        being recorded on last.fm is called a scrobble.
+    </p>
+
+    <p>
+        The website has an API which allows token-authenticated users to request
+        various sets of information on tracks, artists, albums amongst other
+        things either at an individual website user level or aggregate statistics
+        from multiple users.
+    </p>
+
+    <p>
+        One of the available API methods is to get the top artists for a
+        specified country. I decided to do this to get the artist with the most
+        listeners for each country for which data is available. Remember that
+        this is only of unique last.fm users so if the fans of different artists
+        have variable affinities towards using a site like last.fm (as you
+        would imagine they certainly would) then the map below would be influenced
+        by that as well as, of course, by how much people like the given artist.
+    </p>
+    <img src="{% static 'last_fm_analysis/top_artist_world_map.png' %}" alt="Artist with most last.fm listeners by country" style="width:80%">
+    <p>
+        Another API method allows you to get the top artists on the last.fm chart,
+        the returned response gives you the number of listeners and also the playcount.
+        I retrieved this data for the top 2000 artists on the last .fm chart and
+        plotted the top 20 for each in the below plots.
+    </p>
+    <img src="{% static 'last_fm_analysis/listeners.png' %}" alt="Artist with most last.fm listeners by country" style="width:80%">
+    <img src="{% static 'last_fm_analysis/playcount.png' %}" alt="Artist with most last.fm listeners by country" style="width:80%">
+
+    <p>
+        I also created a plays per listener statistic to see to what degree
+        listeners are obsessed with the top artists. The top 20 for this statistic
+        are shown in the plot below.
+    </p>
+    <img src="{% static 'last_fm_analysis/plays_per_listener.png' %}" alt="Artist with most last.fm listeners by country" style="width:80%">
+    <p>
+        A further API method available allows you to get the complete listening
+        history (or a time interval thereof) for a specified user. I started using
+        last.fm in late 2014 so I decided to retrieve my complete listening history
+        in order to look at my daily listening pattern over the years. Below is
+        a heatmap showing the average number of tracks scrobbled for each hour
+        of the day for the complete years since then.
+    </p>
+    <img src="{% static 'last_fm_analysis/year_hour_counts.png' %}" alt="Artist with most last.fm listeners by country" style="width:80%">
+    <p>
+        If you are interested in seeing how this was done the code for this
+        project is available on my GitHub
+            <a href="https://github.com/rmcg123/last_fm_api">here</a>
+    </p>
+{% endblock page_content %}

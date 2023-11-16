@@ -26,3 +26,6 @@ def stat_learning(request):
 
 def abp(request):
     return render(request, "pages/abp_pt_applications.html", {})
+
+def last_fm(request):
+    return render(request, "pages/last_fm_analysis.html", {})
