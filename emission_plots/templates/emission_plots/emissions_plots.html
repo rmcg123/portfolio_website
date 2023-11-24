@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1>EU 2022 Greenhouse Gas Emissions by Country and Sector</h1>
+
+    <p>
+        I analysed the 2022 EU greenhouse gas emissions data from the European
+        Environment Agency. I looked at how the emissions varied from country to
+        country across various sectors and sub-sectors of the economy. As well
+        as total emissions I also looked at per capita emissions and the
+        percentage share of each sector or sub-sector of the economy in overall
+        emissions or in sectoral emissions.
+    </p>
+
+    <p>
+        I've saved each of the plots in a Django database (using a created model)
+        and have created the below form to display the plot requested by the user
+        - give it a try!
+    </p>
+
+
+    <form method="post" action="{% url 'eu_emissions' %}">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Show Plot">
+    </form>
+    <br>
+    {% for plot in plots %}
+        <h5>Emissions calculation: {{ plot.get_emissions_display }}</h5>
+        <h5>Sector: {{ plot.get_sector_display }}</h5>
+        <img src="{{ plot.emissions_plot.url }}" style="width:80%">
+        <p>{{ plot.plot_description }}</p>
+    {% endfor %}
+
+    <p>
+        The code to generate these plots is available on my GitHub <a href="https://github.com/rmcg123/eu_emissions_analysis_2022">
+        here
+    </a>
+    </p>
+{% endblock page_content %}
