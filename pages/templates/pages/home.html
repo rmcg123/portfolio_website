@@ -4,10 +4,9 @@
 {% block page_content %}
     <h1>My Portfolio Website</h1>
 
-    <p>This site is intended to showcase (a subset of) my skills, abilities
-        and interests.<br> Each of the below projects will see me working with
-        different data sources and/or formats to produce interesting results
-        and visualisations.<p>
+    <p>
+        Take a look at some of my projects below:
+    </p>
 
     <div class="row">
         <div class="col-md-4">
@@ -105,7 +104,7 @@
         </div>
         <div class="col-md-4">
             <div class="card mb-2">
-                <h5 class="card-title">Solutions to An Introduction to Statistical Learning Problems</h5>
+                <h5 class="card-title">Solutions to "An Introduction to Statistical Learning" Problems</h5>
                 <img class="card-img-top" src="{% static 'home_thumbs/stat_learning.png' %}" alt="Chart, from Pixabay">
                 <p class="card-text">
                     Solutions to the applied exercises for chapters 1 through 8
@@ -113,6 +112,17 @@
                     Hastie and Tibshirani done using R and written up using R Markdown.
                 </p>
                 <a href="{% url 'statistical_learning' %}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <h5 class="card-title">Here's how I made this website</h5>
+                <img class="card-img-top" src="{% static 'home_thumbs/website.jpg' %}" alt="Website design, from Pixabay">
+                <p class="card-text">
+                    In this post I explain how I created the website using the python
+                    package django and then deployed the website.
+                </p>
+                <a href="{% url 'django_website' %}" class="btn btn-primary">Read More</a>
             </div>
         </div>
     </div>
