@@ -4,6 +4,7 @@ from pages import views
 
 urlpatterns = [
     path("", views.home, name='home'),
+    path("django_website/", views.django_website, name="django_website"),
     path("guindex_package/", views.guindex_package, name="guindex_package"),
     path("simpsons_ratings/", views.simpsons_ratings, name="simpsons_ratings"),
     path("irish_rail_rt/", views.irish_rail_rt, name="irish_rail_rt"),

@@ -3,6 +3,9 @@ from django.shortcuts import render
 def home(request):
     return render(request, "pages/home.html", {})
 
+def django_website(request):
+    return render(request, "pages/django_website.html", {})
+
 def guindex_package(request):
     return render(request, "pages/guindex_package.html", {})
 

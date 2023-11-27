@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+    <h1>Here's how I made this website</h1>
+
+    <p>
+        I made this website using the python package Django. This is the first time I've built and deployed
+        a website by myself so it was a fun learning experience. To create the
+        Django web app I largely followed a tutorial on the website Real Python <a href="https://realpython.com/get-started-with-django-1/">
+        here
+    </a> to setup the home page. For my purposes I considered the storing of
+        each project in a database to be a bit restrictive so instead started by
+        using basic static html pages to describe each project. I intend to do
+        more dynamic things over time (my first attempt at this is <a href="{% url 'eu_emissions' %}">here</a>).
+    </p>
+
+    <p>
+        In order to deploy the website I first needed to buy a domain and hosting package.
+        After comparing a few providers I decided to go with <a href="https://www.hostinger.com/">Hostinger</a>.
+        I selected a virtual private server (VPS) hosting package as I wanted
+        root access to the server. I then had to configure the DNS records on
+        the hosting account to link up the hosting with the domain.
+    </p>
+
+    <p>
+        As I hadn't deployed a website before I got some help from my friend
+        Robbie for which I am very grateful. Robbie had previously deployed
+        django websites (including the <a href="https://www.guindex.ie">guindex
+        project</a>) and he suggested that I use nginx and gunicorn as the web
+        and application servers to replace the django test server which isn't
+        suitable for live sites. I proceeded to do this - first I SSHed into
+        the server and cloned the django code. Then I had to set up gunicorn and
+        nginx, as well as Robbie's help I found
+        <a href="https://realpython.com/django-nginx-gunicorn/">this tutorial</a>
+        on Real Python very useful in doing this. This tutorial was also useful in
+        configuring security certificates as well as other security settings.
+    </p>
+
+    <p>
+        The code for this website is available on my GitHub <a href="https://github.com/rmcg123/portfolio_website">here</a>
+    </p>
+{% endblock page_content %}
