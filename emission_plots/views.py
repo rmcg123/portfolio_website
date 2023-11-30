@@ -24,4 +24,6 @@ def emissions_page(request):
     context["form"] = form
     context["plots"] = plots
 
+    context["title"] = "An analysis of 2022 EU emissions"
+
     return render(request, "emission_plots/emissions_plots.html", context)
