@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block page_content %}
+  <h1>{{title}}</h1>
+
+    <p>
+        In this article I demonstrate how a guindex style pubs map can be made using
+        pubs data retrieved from the guindex API using the guindex python package.
+    </p>
+
+    <p>
+        The guindex pubs map for a selected county can be displayed using the form below.
+    </p>
+
+    <form method="post" action="{% url 'guindex_map' %}">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Show Pubs Map">
+    </form>
+
+    <br>
+    {{ map|safe }}
+
+    <p>
+        When the "Show Pubs Map" is pressed the selected county is extracted
+        from the submitted form and then the guindex python package is used to
+        get the pubs for that county.
+    </p>
+
+    <p>
+        From there, a map is created using the python package Folium. The map is
+        centred on the average latitude and longitude of the pubs.
+        A marker cluster is created so that pub markers (when created) group when
+        the map is sufficiently zoomed out. We then create a marker for each pub
+        in the county is created with the marker type depending on what information
+        has been submitted on each pub to date.
+    </p>
+
+    <p>
+        Once the map is finished the html representation of it is added to the
+        context dictionary within the django view which is passed to the render
+        function. The map is then extracted from the context dictionary in the
+        corresponding html template.
+    </p>
+
+    <p>
+        The code to create the maps is available on my GitHub <a>here</a>. The
+        map on the guindex page containing all of the pubs can be viewed <a
+            href="https://www.guindex.ie/map/">here
+        </a>. If you would like to contribute to the guindex project please
+        sign-up and start submitting data, instructions to do this are on the
+        home page <a href="https://www.guindex.ie">here</a>
+    </p>
+{% endblock page_content %}

@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+from pages.view_enabler_functions import create_guindex_map
+from pages.forms import GuindexMapForm, counties
+
 def home(request):
     return render(request, "pages/home.html", {"title": "My Personal Portfolio"})
 
@@ -32,3 +35,20 @@ def abp(request):
 
 def last_fm(request):
     return render(request, "pages/last_fm_analysis.html", {"title": "Exploring the last.fm API"})
+
+def guindex_maps(request):
+
+    context = {"title": "How to make a Guindex pubs map..."}
+    if request.method == "POST":
+        form = GuindexMapForm(request.POST)
+        if form.is_valid():
+            county_idx = form.cleaned_data["county"]
+            county = counties[int(county_idx)]
+            guindex_map = create_guindex_map(county=county)
+            context["map"] = guindex_map._repr_html_()
+    else:
+        form = GuindexMapForm()
+
+    context["form"] = form
+
+    return render(request, "pages/guindex_map.html", context)

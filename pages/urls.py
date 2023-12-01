@@ -16,4 +16,5 @@ urlpatterns = [
     path("abp_pt_applications/", views.abp, name="abp_pt_applications"),
     path("about/", views.about, name="about"),
     path("last_fm_analysis/", views.last_fm, name="last_fm_analysis"),
+    path("guindex_map/", views.guindex_maps, name="guindex_map"),
 ]
