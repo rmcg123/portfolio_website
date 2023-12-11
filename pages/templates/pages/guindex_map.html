@@ -6,7 +6,7 @@
 
     <p>
         In this article I demonstrate how a guindex style pubs map can be made using
-        pubs data retrieved from the guindex API using the guindex python package.
+        pubs data retrieved from the guindex API using the <a href="{% url 'guindex_package' %}">guindex python package</a> that I created.
     </p>
 
     <p>
@@ -41,7 +41,9 @@
         Once the map is finished the html representation of it is added to the
         context dictionary within the django view which is passed to the render
         function. The map is then extracted from the context dictionary in the
-        corresponding html template.
+        corresponding html template. Figuring out the appropriate exceptions to
+        add to the content security policy on the live website in order to
+        properly display the map was a bit of a headache.
     </p>
 
     <p>
