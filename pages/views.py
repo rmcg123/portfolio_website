@@ -52,3 +52,7 @@ def guindex_maps(request):
     context["form"] = form
 
     return render(request, "pages/guindex_map.html", context)
+
+
+def eirgrid_analysis(request):
+    return render(request, "pages/eirgrid_analysis.html", {"title": "Eirgrid electricty data analysis"})
