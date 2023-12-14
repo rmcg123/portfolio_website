@@ -8,14 +8,21 @@
         website using the <a href="../guindex_package">python package</a>
         that I published. I restricted the scope of the analysis to user pint price
         submissions from Dublin in the years 2017 and 2018. A shapefile with
-        the Dublin postal regions was obtained for this analysis.
+        the Dublin postal regions was obtained for this analysis. The original projection
+        of the shapefile was the <a href="https://epsg.io/29903">TM75 Irish Grid projection</a>.
+        In order to use these shapefiles with the guindex data I had to convert these
+        into <a href="https://epsg.io/4326"> WGS 84 projection</a> using GeoPandas.
+        Once this was done I had to sort each of the pubs into their correct post
+        routing administrative area. This was done by looping through each of the
+        pubs and creating a Shapely point and then using the Polygon.contains(point)
+        method to find out the postal area for each pub.
     </p>
     <img src="{% static 'guinness_pricing_post/n_pubs_map.png' %}" alt="Number of Pubs by Postal Region" style="width:50%">
     <p>
-        The above map shows this shapefile with the postal regions. The name of
-        each of the postal regions is annotated on the map. Additionally,
-        there is a colourmap showing the number of pubs within each of the
-        postal regions. Unsurprisingly, Dublin 2 has the largest number of pubs.
+        The above map was produced using GeoPandas and shows this shapefile with
+        the postal regions. The name of each of the postal regions is annotated
+        on the map. Additionally, there is a colourmap showing the number of pubs
+        within each of the postal regions. Unsurprisingly, Dublin 2 has the largest number of pubs.
     </p>
     <img src="{% static 'guinness_pricing_post/n_pints_map.png' %}" alt="Number of Pints by Postal Region" style="width:50%">
     <p>
@@ -39,7 +46,7 @@
     </p>
     <img src="{% static 'guinness_pricing_post/ridgeline_pints.png' %}" alt="Pints Postal Region Ridgeline" style="width:80%">
     <p>
-        The plot above shows the price distributions for each of the postal
+        The ridgeline plot above shows the price distributions for each of the postal
         regions that has at least 4 price submissions.
     </p>
     <p>
