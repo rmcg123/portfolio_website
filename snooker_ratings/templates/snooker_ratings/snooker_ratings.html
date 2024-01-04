@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <h1> {{ title }}</h1>
+    <p>
+        Here, I am going to make an alternative world ranking system for snooker.
+        Currently, the world snooker rankings are based on a two-year rolling
+        sum of prize money won by players in ranking tournaments. However,
+        this may be a bit distorted for example because:
+        <ul>
+            <li>
+                The relative difficulty of players opponents within
+                ranking events is not accounted for
+            </li>
+            <li>
+                There is a large imbalance in prize money between tournaments.
+                Specifically, if a player does especially well in the World
+                Championships they may have an inflated ranking.
+            </li>
+            <li>
+                The performances of players in invitational events is not included.
+                For instance, a player gets no ranking points for winning the Masters.
+            </li>
+        </ul>
+    </p>
+
+    <p>
+        To create this ranking system I am going to use match, event and player data
+        sourced from the excellent <a href="https://www.snooker.org/">snooker.org</a>
+        via their API. I have obtained historical data back to the beginning of the
+        2013 season and have implemented a script to add the latest matches
+        once per day from the Snooker.org API.
+        As an example of the match data the table below has the matches from the last seven days.
+    </p>
+
+    <table style="border:1px solid black">
+        <tr style="border:1px solid black">
+            <td style="border:1px solid black">Event</td>
+            <td style="border:1px solid black">Datetime</td>
+            <td style="border:1px solid black">Season</td>
+            <td style="border:1px solid black">Player1 Name</td>
+            <td style="border:1px solid black">Player1 Score</td>
+            <td style="border:1px solid black">Player2 Score</td>
+            <td style="border:1px solid black">Player2 Name</td>
+        </tr>
+        {% for match in matches %}
+        <tr style="border:1px solid black">
+            <td style="border:1px solid black">{{ match.event_name }}</td>
+            <td style="border:1px solid black">{{ match.match_datetime }}</td>
+            <td style="border:1px solid black">{{ match.match_season }}</td>
+            <td style="border:1px solid black">{{ match.player1_name }}</td>
+            <td style="border:1px solid black">{{ match.player1_score }}</td>
+            <td style="border:1px solid black">{{ match.player2_score }}</td>
+            <td style="border:1px solid black">{{ match.player2_name }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        Using the full database of snooker matches I can calculate an alternative
+        player rating system.
+    </p>
+    <table style="border:1px solid black">
+        <tr style="border:1px solid black">
+            <td style="border:1px solid black">Ranking</td>
+            <td style="border:1px solid black">Player</td>
+            <td style="border:1px solid black">Rating</td>
+        </tr>
+        {% for player in players %}
+        <tr style="border:1px solid black">
+            <td style="border:1px solid black">{{ player.rank }}</td>
+            <td style="border:1px solid black">{{ player.player_name }}</td>
+            <td style="border:1px solid black">{{ player.player_rating }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock page_content %}
