@@ -12,7 +12,7 @@ def snooker_ratings(request):
     events = SnookerEvent.objects.filter(
         event_id__in=[x.event_id for x in matches]
     )
-    players = SnookerPlayer.objects.all()
+    players = SnookerPlayer.objects.all().order_by("-player_rating")
     matches = [
         x for x in matches if x.event_id in [y.event_id for y in events]
     ]
@@ -34,6 +34,8 @@ def snooker_ratings(request):
         ).first().player_name
 
     players = [x for x in players if x.player_professional]
+    for idx, player in enumerate(players):
+        player.ranking = (idx + 1)
 
     context = {
         "title": "An alternative rating system for snooker players",

@@ -68,9 +68,11 @@
         </tr>
         {% for player in players %}
         <tr style="border:1px solid black">
-            <td style="border:1px solid black">{{ player.rank }}</td>
+            <td style="border:1px solid black">{{ player.ranking }}</td>
             <td style="border:1px solid black">{{ player.player_name }}</td>
-            <td style="border:1px solid black">{{ player.player_rating }}</td>
+            <td style="border:1px solid black">
+                {{ player.player_rating|floatformat:2 }}
+            </td>
         </tr>
         {% endfor %}
     </table>
