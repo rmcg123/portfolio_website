@@ -58,7 +58,10 @@
 
     <p>
         Using the full database of snooker matches I can calculate an alternative
-        player rating system.
+        player rating system. This rating system works by initialising all players
+        ratings at a chosen level before their first match and then adjusting the
+        ratings after each match based on each of the players ratings before the match
+        and the outcome of the match. The current ratings are given in the table below:
     </p>
     <table style="border:1px solid black">
         <tr style="border:1px solid black">
@@ -77,5 +80,10 @@
         {% endfor %}
     </table>
 
+    <p>
+        At the moment the rating system is quite simple and not optimised but I
+        intend to do some work to calibrate the rating system to maximise some
+        chosen evaluation metric when time allows.
+    </p>
 
 {% endblock page_content %}
