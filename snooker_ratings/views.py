@@ -6,9 +6,7 @@ from snooker_ratings.models import SnookerMatch, SnookerEvent, SnookerPlayer
 # Create your views here.
 def snooker_ratings(request):
 
-    matches = SnookerMatch.objects.filter(
-        match_datetime__gte=datetime.now().astimezone() - timedelta(days=7)
-    )
+    matches = SnookerMatch.objects.all().order_by("-match_datetime")[:10][::-1]
     events = SnookerEvent.objects.filter(
         event_id__in=[x.event_id for x in matches]
     )

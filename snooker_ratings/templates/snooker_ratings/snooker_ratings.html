@@ -30,7 +30,8 @@
         via their API. I have obtained historical data back to the beginning of the
         2013 season and have implemented a script to add the latest matches
         once per day from the Snooker.org API.
-        As an example of the match data the table below has the matches from the last seven days.
+        As an example of the match data the table below has the last ten matches
+        included in the ranking system.
     </p>
 
     <table style="border:1px solid black">
@@ -55,7 +56,7 @@
         </tr>
         {% endfor %}
     </table>
-
+    <br>
     <p>
         Using the full database of snooker matches I can calculate an alternative
         player rating system. This rating system works by initialising all players
@@ -79,7 +80,7 @@
         </tr>
         {% endfor %}
     </table>
-
+    <br>
     <p>
         At the moment the rating system is quite simple and not optimised but I
         intend to do some work to calibrate the rating system to maximise some
