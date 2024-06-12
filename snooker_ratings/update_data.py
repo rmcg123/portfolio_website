@@ -134,13 +134,13 @@ def check_matches(matches):
                                 player_info = pros.loc[pros["ID"].eq(new_pro)]
                                 if player_info["SurnameFirst"].squeeze():
                                     player_name = (
-                                        player_info["LastName"] +
-                                        " " + player_info["FirstName"]
+                                        player_info["LastName"].squeeze() +
+                                        " " + player_info["FirstName"].squeeze()
                                     )
                                 else:
                                     player_name = (
-                                        player_info["FirstName"] +
-                                        " " + player_info["LastName"]
+                                        player_info["FirstName"].squeeze() +
+                                        " " + player_info["LastName"].squeeze()
                                     )
                                 tmp_player = SnookerPlayer()
                                 tmp_player.player_id = new_pro
