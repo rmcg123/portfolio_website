@@ -103,7 +103,7 @@ def check_matches(matches):
                         headers=headers,
                         params=params
                     )
-                    db_players = SnookerPlayer.onjects.all()
+                    db_players = SnookerPlayer.objects.all()
                     db_pros = [x for x in db_players if x.player_professional]
                     still_pros = [
                         x for x in db_pros if x.player_id in pros["ID"].to_list()
@@ -122,7 +122,7 @@ def check_matches(matches):
                     if len(no_longer_pros) > 0:
                         for no_longer_pro in no_longer_pros:
                             no_longer_pro.player_professional = False
-                            no_longer_pro.update()
+                            no_longer_pro.save()
 
                     if len(new_pros) > 0:
                         for new_pro in new_pros:
@@ -132,7 +132,7 @@ def check_matches(matches):
                                 tmp_player.save()
                             else:
                                 player_info = pros.loc[pros["ID"].eq(new_pro)]
-                                if player_info["SurnameFirst"]:
+                                if player_info["SurnameFirst"].squeeze():
                                     player_name = (
                                         player_info["LastName"] +
                                         " " + player_info["FirstName"]
