@@ -8,6 +8,9 @@ import pandas as pd
 from dotenv import load_dotenv
 import numpy as np
 from apscheduler.schedulers.background import BackgroundScheduler
+import django
+
+django.setup()
 
 import snooker_ratings.update_data_config as cfg
 from snooker_ratings.models import SnookerMatch, SnookerEvent, SnookerPlayer
@@ -36,7 +39,6 @@ def get_info_from_api(url, params, headers):
 
 
 def get_recent_matches():
-
     url = cfg.SNOOKER_API_URL
     params = {
         "t": cfg.API_METHODS["latest_matches"],
@@ -44,22 +46,35 @@ def get_recent_matches():
     }
     headers = {"X-Requested-By": os.environ["API_REQUEST_HEADER"]}
 
-    matches = get_info_from_api(
-        url=url, params=params, headers=headers
-    )
+    matches = get_info_from_api(url=url, params=params, headers=headers)
 
     return matches
 
-def check_matches(matches):
 
+def check_matches(matches):
     matches = matches.loc[
-        matches["Status"].eq(3) &
-        matches["StartDate"].notnull() &
-        ~(matches["Walkover1"] | matches["Walkover2"])
-    ]
+        matches["Status"].eq(3)
+        & matches["StartDate"].notnull()
+        & ~(matches["Walkover1"] | matches["Walkover2"])
+    ].copy()
+    matches["StartDate"] = pd.to_datetime(
+        matches["StartDate"], format="%Y-%m-%dT%H:%M:%SZ", errors="coerce"
+    )
+    matches.sort_values(by="ID", inplace=True)
+    matches.drop_duplicates(
+        subset=[
+            "EventID",
+            "StartDate",
+            "Player1ID",
+            "Player2ID",
+            "Score1",
+            "Score2",
+        ],
+        inplace=True,
+    )
     if len(matches) > 0:
         events = list(matches["EventID"].unique())
-        db_events = SnookerEvent.objects.filter(event_id__in=events)
+        db_events = SnookerEvent.objects.all()
         db_event_ids = [x.event_id for x in db_events]
         db_event_seasons_max = max([x.event_season for x in db_events])
         events_not_in_db = list(set(events) - set(db_event_ids))
@@ -69,54 +84,63 @@ def check_matches(matches):
                 url = cfg.SNOOKER_API_URL
                 headers = {"X-Requested-By": os.environ["API_REQUEST_HEADER"]}
                 params = {"t": cfg.API_METHODS["event"], "e": event}
-                new_event = get_info_from_api(url=url, headers=headers, params=params)
+                new_event = get_info_from_api(
+                    url=url, headers=headers, params=params
+                )
                 new_events = pd.concat(
                     [new_events, new_event], ignore_index=True
                 )
             keep_events_mask = (
-                new_events["Tour"].eq("main") &
-                new_events["Sex"].eq("Both") &
-                new_events["AgeGroup"].ne("S") &
-                new_events["Type"].isin(["Ranking","Invitational","Qualifying"]) &
-                (new_events["RankingType"].isna()|new_events["RankingType"].isin([
-                    "WR", "Unknown"
-                ]))
+                new_events["Tour"].eq("main")
+                & new_events["Sex"].eq("Both")
+                & new_events["AgeGroup"].ne("S")
+                & new_events["Type"].isin(
+                    ["Ranking", "Invitational", "Qualifying"]
+                )
+                & (
+                    new_events["RankingType"].isna()
+                    | new_events["RankingType"].isin(["WR", "Unknown", ""])
+                )
             )
 
             keep_new_events = new_events.loc[keep_events_mask]
             drop_new_events = new_events.loc[~keep_events_mask]
 
             drop_new_event_ids = drop_new_events["ID"].to_list()
-            matches = matches.loc[
-                ~matches["EventID"].isin(drop_new_event_ids)
-            ]
+            matches = matches.loc[~matches["EventID"].isin(drop_new_event_ids)]
             if len(keep_new_events) > 0:
                 max_new_event_season = keep_new_events["Season"].max()
                 if max_new_event_season > db_event_seasons_max:
                     params = {
                         "t": cfg.API_METHODS["professional_players_season"],
                         "s": max_new_event_season,
-                        "st": "p"
+                        "st": "p",
                     }
                     pros = get_info_from_api(
-                        url=url,
-                        headers=headers,
-                        params=params
+                        url=url, headers=headers, params=params
                     )
                     db_players = SnookerPlayer.objects.all()
                     db_pros = [x for x in db_players if x.player_professional]
                     still_pros = [
-                        x for x in db_pros if x.player_id in pros["ID"].to_list()
+                        x
+                        for x in db_pros
+                        if x.player_id in pros["ID"].to_list()
                     ]
                     no_longer_pros = [
-                        x for x in db_pros if x.player_id not in pros["ID"].to_list()
+                        x
+                        for x in db_pros
+                        if x.player_id not in pros["ID"].to_list()
                     ]
                     new_pros = [
-                        x for x in pros["ID"].to_list() if x not in [y.player_id for y in db_pros]
+                        x
+                        for x in pros["ID"].to_list()
+                        if x not in [y.player_id for y in db_pros]
                     ]
                     if len(still_pros) > 0:
                         for still_pro in still_pros:
-                            still_pro.player_last_pro_season = max_new_event_season
+                            still_pro.player_last_pro_season = (
+                                max_new_event_season
+                            )
                             still_pro.save()
 
                     if len(no_longer_pros) > 0:
@@ -127,26 +151,32 @@ def check_matches(matches):
                     if len(new_pros) > 0:
                         for new_pro in new_pros:
                             if new_pro in [x.player_id for x in db_players]:
-                                tmp_player = db_players.filter(player_id=new_pro)[0]
+                                tmp_player = db_players.filter(
+                                    player_id=new_pro
+                                )[0]
                                 tmp_player.player_professional = True
                                 tmp_player.save()
                             else:
                                 player_info = pros.loc[pros["ID"].eq(new_pro)]
                                 if player_info["SurnameFirst"].squeeze():
                                     player_name = (
-                                        player_info["LastName"].squeeze() +
-                                        " " + player_info["FirstName"].squeeze()
+                                        player_info["LastName"].squeeze()
+                                        + " "
+                                        + player_info["FirstName"].squeeze()
                                     )
                                 else:
                                     player_name = (
-                                        player_info["FirstName"].squeeze() +
-                                        " " + player_info["LastName"].squeeze()
+                                        player_info["FirstName"].squeeze()
+                                        + " "
+                                        + player_info["LastName"].squeeze()
                                     )
                                 tmp_player = SnookerPlayer()
                                 tmp_player.player_id = new_pro
                                 tmp_player.player_name = player_name
                                 tmp_player.player_professional = True
-                                tmp_player.player_last_pro_season = max_new_event_season
+                                tmp_player.player_last_pro_season = (
+                                    max_new_event_season
+                                )
                                 tmp_player.player_rating = 1250
                                 tmp_player.save()
 
@@ -163,19 +193,32 @@ def check_matches(matches):
 
         if len(matches) > 0:
             db_matches = SnookerMatch.objects.filter(
-                match_datetime__gte=dt.datetime.now().astimezone() - dt.timedelta(days=3)
+                match_datetime__gte=dt.datetime.now().astimezone()
+                - dt.timedelta(days=3)
             )
 
             ids_to_drop = [x.match_id for x in db_matches]
-            matches = matches.loc[
-                ~matches["ID"].isin(ids_to_drop)
-            ]
+            for match in db_matches:
+                drop = matches.loc[
+                    matches["StartDate"].eq(
+                        match.match_datetime.strftime("%Y-%m-%d %H:%M:%S")
+                    )
+                    & matches["EventID"].eq(match.event_id)
+                    & matches["Player1ID"].eq(match.player1_id)
+                    & matches["Player2ID"].eq(match.player2_id)
+                    & matches["Score1"].eq(match.player1_score)
+                    & matches["Score2"].eq(match.player2_score)
+                ]
+                if len(drop) > 0:
+                    ids_to_drop.append(drop["ID"].squeeze())
+            matches = matches.loc[~matches["ID"].isin(ids_to_drop)]
 
             if len(matches) > 0:
                 matches["Season"] = matches["EventID"].map(
-                    pd.DataFrame(
-                        list(db_events.values())
-                    ).groupby("event_id")["event_season"].first().to_dict()
+                    pd.DataFrame(list(db_events.values()))
+                    .groupby("event_id")["event_season"]
+                    .first()
+                    .to_dict()
                 )
                 matches["BestOf"] = np.where(
                     matches["Score1"].gt(matches["Score2"]),
@@ -183,8 +226,8 @@ def check_matches(matches):
                     np.where(
                         matches["Score1"].lt(matches["Score2"]),
                         2 * matches["Score2"] - 1,
-                        2 * matches["Score1"]
-                    )
+                        2 * matches["Score1"],
+                    ),
                 )
                 for _, match in matches.iterrows():
                     tmp_match = SnookerMatch()
@@ -204,16 +247,16 @@ def check_matches(matches):
 
 
 def update_data_once():
-
     matches = get_recent_matches()
     check_matches(matches)
+
 
 def main():
     """Run this once a day."""
 
     schedule = BackgroundScheduler(
         {
-            'apscheduler.timezone': 'UTC',
+            "apscheduler.timezone": "UTC",
         }
     )
 
