@@ -69,9 +69,6 @@ def calculate_time_taken():
     pf.save_applications_to_db(
         planning_applications_df=planning_apps_df
     )
-    # pf.make_page_html(
-    #     planning_apps_df, file_path="../portfolio_website/pages/templates/pages/abp_pt_applications.html"
-    # )
 
 
 def main():
