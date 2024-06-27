@@ -2,17 +2,15 @@
 
 {% load static %}
 {% block page_content %}
-    <h1>
-        How Long is An Bord Pleanála Taking to Decide Public Transport Planning Applications?
-    </h1>
+    <h1> {{ title }}</h1>
 
     <p>
         Over the coming years An Bord Pleanála (ABP) will have to process a large
         volume of planning applications for housing as well as the energy,
         transport and heating infrastructure necessary to facilitate Ireland
         reaching its climate targets. Unfortunately, in recent years ABP has
-        been beset by problems raising questions as to whether it will be able
-        to handle this responsibility.
+        been beset by scandals and delays raising questions about whether it is able
+        to deal with the required throughput of applications.
     </p>
 
     <p>
@@ -31,15 +29,25 @@
         to see how long these planning applications take. I will endeavour to add
         new projects as they get submitted.
     </p>
-    <p>
-        Only one of the public transport projects has had it's application decided on -
-        the twin tracking of the rail line from Glounthaune to Midleton to facilitate
-        the Cork commuter rail project had it's application granted with conditions in
-        late October 2023. Some of the Bus Connects Dublin applications are now in
-        excess of 500 days under consideration and have passed their original decision
-        deadlines. Depressingly, a rail application to close six level crossings on the
-        Dublin - Cork line is now over 800 days in the planning system.
-    </p>
+    <p>{{ applications_description }}</p>
+
+    <p> Below is a table of the applications:</p>
+        <table style="border:1px solid black">
+        <tr style="border:1px solid black">
+            <td style="border:1px solid black">ID</td>
+            <td style="border:1px solid black">Project</td>
+            <td style="border:1px solid black">Decision</td>
+            <td style="border:1px solid black">Time Taken</td>
+        </tr>
+        {% for application in applications %}
+        <tr style="border:1px solid black">
+            <td style="border:1px solid black">{{ application.application_id }}</td>
+            <td style="border:1px solid black">{{ application.application_name }}</td>
+            <td style="border:1px solid black">{{ application.application_decision }}</td>
+            <td style="border:1px solid black">{{ application.application_time_taken }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <p>
         If you are interested in seeing how this was done the code for this

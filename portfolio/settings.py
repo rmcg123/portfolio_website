@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     "emission_plots",
     "snooker_ratings",
+    "abp_applications",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
