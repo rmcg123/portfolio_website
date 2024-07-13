@@ -23,10 +23,14 @@ def abp_pt_applications(request):
 
 
 def make_description_text(planning_applications_df):
+    longest_without_decision_idx = planning_applications_df.loc[
+        planning_applications_df["application_decision_date"].isna(), "application_time_taken"
+    ].idxmax()
+
     applications_descriptions = f"""
         So far {planning_applications_df["application_decision_date"].notnull().sum()} of the public transport projects have had their applications decided on. The projects that have had their application decided are {", ".join(planning_applications_df.loc[planning_applications_df['application_decision_date'].notnull(), "application_name"].to_list())}. The decided applications have taken an average
          of {int(planning_applications_df.loc[planning_applications_df['application_decision_date'].notnull(), "application_time_taken"].mean().round(0))} days.  
-        The planning application that has been in the system the longest without having a decision reached is the {planning_applications_df.loc[planning_applications_df['application_time_taken'].idxmax(), 'application_name']} which has taken {int(planning_applications_df["application_time_taken"].max())} days so far.""".replace(
+        The planning application that has been in the system the longest without having a decision reached is the {planning_applications_df.loc[longest_without_decision_idx, 'application_name']} which has taken {int(planning_applications_df.loc[longest_without_decision_idx, "application_time_taken"].squeeze())} days so far.""".replace(
         "\n", " ")
 
     return applications_descriptions
