@@ -220,7 +220,7 @@ def plot_time_taken(planning_apps_df, save_dir, save_name):
 
     number_of_vlines = int(round(planning_apps_df["time_taken"].max().squeeze() // (18 * 7), 0))
     for i in range(1, number_of_vlines + 1):
-        plt.axvline(x=i*(18*7), ls="--", color="lightgray", lw=0.75, alpha=0.75)
+        plt.axvline(x=i*(18*7), ls="--", color="lightgray", lw=0.75, alpha=0.85)
 
     # Save plot.
     fig.tight_layout()

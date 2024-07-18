@@ -10,6 +10,7 @@ PROJECT_DETAILS = {
         "Metrolink": 314724,
         "Dart+ West": 314232,
         "Dart+ South West": 316119,
+        "Dart+ Coastal North": 320164,
         "GMTT": 315087,
         "CDLC": 310286,
     },
