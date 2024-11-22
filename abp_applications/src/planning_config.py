@@ -13,6 +13,7 @@ PROJECT_DETAILS = {
         "Dart+ Coastal North": 320164,
         "GMTT": 315087,
         "CDLC": 310286,
+        "Luas Finglas": 321278
     },
     "Bus Connects": {
         "BCD 1": 313182,
