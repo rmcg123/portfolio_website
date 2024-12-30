@@ -13,7 +13,7 @@ PROJECT_DETAILS = {
         "Dart+ Coastal North": 320164,
         "GMTT": 315087,
         "CDLC": 310286,
-        "Luas Finglas": 321278
+        "Luas Finglas": 321278,
     },
     "Bus Connects": {
         "BCD 1": 313182,
@@ -29,6 +29,12 @@ PROJECT_DETAILS = {
         "BCD 14/15": 313509,
         "BCD 16": 317679,
         "BCG CCL": 314597,
+    },
+    "Offshore Wind": {
+        "Arklow Bank": 319864,
+        "Oriel": 319799,
+        "Codling Wind Park": 320768,
+        "North Irish Sea Array": 319866,
     },
 }
 
