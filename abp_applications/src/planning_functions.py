@@ -155,11 +155,29 @@ def clean_planning_columns(planning_apps_df, acronym_replacements):
     return planning_apps_df
 
 
-def plot_time_taken(planning_apps_df, save_dir, save_name):
+def plot_time_taken(planning_apps_df, save_dir, save_name, kind="transport"):
     """Function to create a barplot showing the time taken by ABP for each of
     the public transport projects."""
 
     fig, ax = plt.subplots()
+
+    if kind == "transport":
+        planning_apps_df = planning_apps_df.loc[
+            planning_apps_df["infrastructure_type"].ne("Offshore Wind")
+        ].reset_index(drop=True)
+        title = "Days Taken So Far by An Bord Pleanála on Public Transport Projects"
+    else:
+        planning_apps_df = planning_apps_df.loc[
+            planning_apps_df["infrastructure_type"].eq("Offshore Wind")
+        ].reset_index(drop=True)
+        planning_apps_df["infrastructure_type"] = pd.Categorical(
+            planning_apps_df["infrastructure_type"],
+            ordered=False,
+            categories=["Offshore Wind", "Onshore Wind", "Solar", "Batteries"],
+        )
+        title = (
+            "Days Taken So Far by An Bord Pleanála on Offshore Wind Projects"
+        )
 
     # Create plot.
     sns.barplot(
@@ -172,13 +190,14 @@ def plot_time_taken(planning_apps_df, save_dir, save_name):
     # Set plot labels and title.
     ax.set_xlabel("Days Taken So Far")
     ax.set_ylabel("Project")
-    ax.set_title(
-        "Days Taken So Far by An Bord Pleanála on Public Transport Projects"
-    )
+    ax.set_title(title)
 
     # Change the patterning of the bars for any projects where a decision has
     # been reached.
-    bar_patches = ax.patches[:-2]
+    if kind != "Offshore Wind":
+        bar_patches = ax.patches[:-2]
+    else:
+        bar_patches = ax.patches[:-4]
     patch_sorted_df = planning_apps_df.sort_values(
         by=["infrastructure_type", "time_taken"],
         ascending=False,
@@ -197,7 +216,15 @@ def plot_time_taken(planning_apps_df, save_dir, save_name):
     ax.add_artist(inf_legend)
 
     # Create decision status legend.
-    status_handles = handles
+    if len(handles) > 2:
+        status_handles = handles[:2]
+        bbox_bottom = 0.15 + 0.075 * (len(handles) - 2)
+    elif len(handles) == 2:
+        status_handles = handles
+        bbox_bottom = 0.15
+    else:
+        status_handles = [handles[0], handles[0]]
+        bbox_bottom = 0.1
     [x.set_facecolor("white") for x in status_handles]
     [x.set_edgecolor("black") for x in status_handles]
     status_handles[1].set_hatch("/")
@@ -206,7 +233,7 @@ def plot_time_taken(planning_apps_df, save_dir, save_name):
         labels=["Ongoing", "Decided"],
         title="Decision Status",
         loc="lower right",
-        bbox_to_anchor=(1.0, 0.15),
+        bbox_to_anchor=(1.0, bbox_bottom),
     )
     ax.add_artist(status_legend)
 
@@ -218,9 +245,13 @@ def plot_time_taken(planning_apps_df, save_dir, save_name):
         fontsize=14,
     )
 
-    number_of_vlines = int(round(planning_apps_df["time_taken"].max().squeeze() // (18 * 7), 0))
+    number_of_vlines = int(
+        round(planning_apps_df["time_taken"].max().squeeze() // (18 * 7), 0)
+    )
     for i in range(1, number_of_vlines + 1):
-        plt.axvline(x=i*(18*7), ls="--", color="lightgray", lw=0.75, alpha=0.75)
+        plt.axvline(
+            x=i * (18 * 7), ls="--", color="lightgray", lw=0.75, alpha=0.85
+        )
 
     # Save plot.
     fig.tight_layout()
@@ -231,12 +262,10 @@ def plot_time_taken(planning_apps_df, save_dir, save_name):
 
 
 def save_applications_to_db(planning_applications_df):
-
     db_applications = ABPApplication.objects.all()
     db_application_ids = [x.application_id for x in db_applications]
 
     for _, planning_app in planning_applications_df.iterrows():
-
         if int(planning_app["planning_id_code"]) not in db_application_ids:
             print("Adding new")
             tmp_app = ABPApplication()
@@ -246,7 +275,9 @@ def save_applications_to_db(planning_applications_df):
             tmp_app.application_inf_type = planning_app["infrastructure_type"]
             tmp_app.application_decision = planning_app["decision"]
             if pd.notna(planning_app["date_signed"]):
-                tmp_app.application_decision_date = pd.to_datetime(planning_app["date_signed"])
+                tmp_app.application_decision_date = pd.to_datetime(
+                    planning_app["date_signed"]
+                )
             tmp_app.application_time_taken = planning_app["time_taken"]
             tmp_app.save()
         else:
@@ -256,8 +287,8 @@ def save_applications_to_db(planning_applications_df):
             ]
             tmp_app.application_decision = planning_app["decision"]
             if pd.notna(planning_app["date_signed"]):
-                tmp_app.application_decision_date = pd.to_datetime(planning_app["date_signed"])
+                tmp_app.application_decision_date = pd.to_datetime(
+                    planning_app["date_signed"]
+                )
             tmp_app.application_time_taken = planning_app["time_taken"]
             tmp_app.save()
-
-

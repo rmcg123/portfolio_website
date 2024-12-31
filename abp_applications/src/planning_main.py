@@ -3,8 +3,10 @@ import time
 from datetime import datetime as dt
 
 from dotenv import load_dotenv
+
 load_dotenv(".env")
 import django
+
 django.setup()
 import pandas as pd
 import matplotlib as mpl
@@ -30,13 +32,13 @@ mpl.use("agg")
 
 
 def calculate_time_taken():
-
     print("Updating applications...")
     # Loop through public transport projects retrieving planning application
     # information from ABP and add to an accruing DataFrame.
     planning_apps_df = pd.DataFrame()
     for inf_type, projects in cfg.PROJECT_DETAILS.items():
         for project_name, planning_id in projects.items():
+            print(inf_type, project_name)
             planning_url = cfg.ABP_BASE_URL + f"{planning_id}"
 
             planning_app_df = pf.planning_request(planning_url)
@@ -66,9 +68,14 @@ def calculate_time_taken():
         save_dir=cfg.OUTPUTS_FOLDER,
         save_name="time_taken.png",
     )
-    pf.save_applications_to_db(
-        planning_applications_df=planning_apps_df
+
+    _, _ = pf.plot_time_taken(
+        planning_apps_df,
+        save_dir=cfg.OUTPUTS_FOLDER,
+        save_name="wind_time_taken.png",
+        kind="Offshore Wind",
     )
+    pf.save_applications_to_db(planning_applications_df=planning_apps_df)
 
 
 def main():
@@ -76,11 +83,13 @@ def main():
 
     schedule = BackgroundScheduler(
         {
-            'apscheduler.timezone': 'UTC',
+            "apscheduler.timezone": "UTC",
         }
     )
 
-    schedule.add_job(calculate_time_taken, "interval", days=1, next_run_time=dt.utcnow())
+    schedule.add_job(
+        calculate_time_taken, "interval", days=1, next_run_time=dt.utcnow()
+    )
     schedule.start()
     try:
         while True:
