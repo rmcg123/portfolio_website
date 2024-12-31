@@ -24,5 +24,5 @@ urlpatterns = [
     path("", include("pages.urls")),
     path("eu_emissions/", include("emission_plots.urls")),
     path("snooker_ratings/", include("snooker_ratings.urls")),
-    path("abp_pt_applications", include("abp_applications.urls"))
+    path("abp_pt_applications/", include("abp_applications.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

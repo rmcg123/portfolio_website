@@ -14,15 +14,14 @@
     </p>
 
     <p>
-        Here I want to examine how long it is taking to decide on public
-        transport infrastructure applications. To do this I looked up the
-        application codes for all of the major public transport projects which
+        Here I want to examine how long it is taking to decide on energy infrastructure applications. To do this I looked up the
+        application codes for all of the major energy projects which
         have reached the ABP planning application stage. I then wrote some code
         to retrieve the information for each of the planning application pages
-        from ABPs website for each relevant public transport project. The time
+        from ABPs website for each relevant energy project. The time
         taken for planning application consideration to date is shown in the plot below.
     </p>
-    <img src="{% static 'abp_pt_applications/time_taken.png' %}" alt="Time taken by ABP per project" style="width:80%">
+    <img src="{% static 'abp_pt_applications/wind_time_taken.png' %}" alt="Time taken by ABP per project" style="width:80%">
 
     <p>
         I've written a script that should update this image daily so check back
@@ -50,9 +49,8 @@
     </table>
 
     <p>
-        I have a related analysis of how long An Bord Pleanála is taking on major energy projects <a href="{% url 'abp_energy_applications' %}">here</a>
+        I have a related analysis of how long An Bord Pleanála is taking on major public transport projects <a href="{% url 'abp_pt_applications' %}">here</a>
     </p>
-
     <p>
         If you are interested in seeing how this was done the code for this
         project is available on my GitHub
