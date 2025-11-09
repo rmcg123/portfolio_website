@@ -24,9 +24,13 @@ def abp_pt_applications(request):
 
 
 def make_description_text(planning_applications_df, kind="public transport"):
-    longest_without_decision_idx = planning_applications_df.loc[
-        planning_applications_df["application_decision_date"].isna(), "application_time_taken"
-    ].idxmax()
+
+    if planning_applications_df["application_decision_date"].isna().any():
+        longest_without_decision_idx = planning_applications_df.loc[
+            planning_applications_df["application_decision_date"].isna(), "application_time_taken"
+        ].idxmax()
+    else:
+        longest_without_decision_idx = None
 
     if planning_applications_df["application_decision_date"].notnull().any():
         average_decision_time = int(planning_applications_df.loc[planning_applications_df['application_decision_date'].notnull(), "application_time_taken"].mean().round(0))
@@ -34,9 +38,10 @@ def make_description_text(planning_applications_df, kind="public transport"):
         average_decision_time = "NA"
     applications_descriptions = f"""
         So far {planning_applications_df["application_decision_date"].notnull().sum()} of the {kind} projects have had their applications decided on. The projects that have had their application decided are {", ".join(planning_applications_df.loc[planning_applications_df['application_decision_date'].notnull(), "application_name"].to_list())}. The decided applications have taken an average
-         of {average_decision_time} days.  
-        The planning application that has been in the system the longest without having a decision reached is the {planning_applications_df.loc[longest_without_decision_idx, 'application_name']} which has taken {int(planning_applications_df.loc[longest_without_decision_idx, "application_time_taken"].squeeze())} days so far.""".replace(
-        "\n", " ")
+         of {average_decision_time} days."""
+
+    if longest_without_decision_idx:
+        applications_descriptions += f"""The planning application that has been in the system the longest without having a decision reached is the {planning_applications_df.loc[longest_without_decision_idx, 'application_name']} which has taken {int(planning_applications_df.loc[longest_without_decision_idx, "application_time_taken"].squeeze())} days so far."""
 
     return applications_descriptions
 
